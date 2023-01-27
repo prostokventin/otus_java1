@@ -20,6 +20,7 @@ public class TestProcessor {
             this.clazz = Class.forName(className);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+            throw new RuntimeException("Не найден класс " + className);
         }
     }
 

@@ -36,7 +36,7 @@ public class TestClass {
     @After
     public void afterMethod() {
         System.out.println("run after method");
-        throw new RuntimeException("Ups");
+//        throw new RuntimeException("Ups");
     }
 
 
