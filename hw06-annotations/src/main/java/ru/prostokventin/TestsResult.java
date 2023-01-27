@@ -3,12 +3,12 @@ package ru.prostokventin;
 
 public class TestsResult {
     private int failed;
-    private int succeed;
+    private int passed;
     private int total;
 
-    public TestsResult(int failed, int succeed, int total) {
+    public TestsResult(int failed, int passed, int total) {
         this.failed = failed;
-        this.succeed = succeed;
+        this.passed = passed;
         this.total = total;
     }
 
@@ -16,19 +16,15 @@ public class TestsResult {
         this.failed++;
     }
 
-    public void addSucceed() {
-        this.succeed++;
+    public void addPassed() {
+        this.passed++;
     }
 
-    public int getFailed() {
-        return failed;
-    }
-
-    public int getSucceed() {
-        return succeed;
-    }
-
-    public int getTotal() {
-        return total;
+    @Override
+    public String toString() {
+        return  "Total tests count: " + total + "\n" +
+                "Passed tests count: " + passed + "\n" +
+                "Failed tests count: " + failed
+                ;
     }
 }
