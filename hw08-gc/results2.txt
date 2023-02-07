@@ -34,7 +34,7 @@ UseSerialGC
 256 - spend msec:650, sec:0
 2048 - spend msec:653, sec:0
 4096 - spend msec:650, sec:0
-8192 - spend msec:1268, sec:1
+8192 - spend msec:650, sec:0
 
 UseParallelGC
 256 - spend msec:650, sec:0
