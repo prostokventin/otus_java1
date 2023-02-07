@@ -1,0 +1,43 @@
+UseG1GC
+256 - java.lang.OutOfMemoryError: Java heap space
+2048 - spend msec:7290, sec:7
+3072 - spend msec:7125, sec:7 +
+4096 - spend msec:7737, sec:7
+8192 - spend msec:7936, sec:7
+
+UseSerialGC
+256 - java.lang.OutOfMemoryError: Java heap space
+2048 - spend msec:7590, sec:7
+4096 - spend msec:5519, sec:5
+5120 - spend msec:5069, sec:5
+6144 - spend msec:4626, sec:4
+7168 - spend msec:4420, sec:4 +
+8192 - spend msec:4622, sec:4
+
+UseParallelGС
+256 - java.lang.OutOfMemoryError: GC overhead limit exceeded
+2048 - spend msec:29231, sec:29
+4096 - spend msec:12363, sec:12
+8192 - spend msec:4590, sec:4
+10192 - spend msec:4232, sec:4
+12228 - spend msec:4008, sec:4 +
+
+После оптимизации
+UseG1GC
+256 - spend msec:1064, sec:1
+2048 - spend msec:1297, sec:1
+3072 - spend msec:1429, sec:1
+4096 - spend msec:1332, sec:1
+8192 - spend msec:1237, sec:1
+
+UseSerialGC
+256 - spend msec:853, sec:0
+2048 - spend msec:941, sec:0
+4096 - spend msec:1136, sec:1
+8192 - spend msec:1268, sec:1
+
+UseParallelGС
+256 - spend msec:846, sec:0
+2048 - spend msec:948, sec:0
+4096 - spend msec:1115, sec:1
+8192 - spend msec:1225, sec:1
