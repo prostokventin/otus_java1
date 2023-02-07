@@ -1,8 +1,5 @@
 package ru.calculator;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Summator {
     private int sum = 0;
     private int prevValue = 0;
@@ -32,23 +29,23 @@ public class Summator {
         }
     }
 
-    public Integer getSum() {
+    public int getSum() {
         return sum;
     }
 
-    public Integer getPrevValue() {
+    public int getPrevValue() {
         return prevValue;
     }
 
-    public Integer getPrevPrevValue() {
+    public int getPrevPrevValue() {
         return prevPrevValue;
     }
 
-    public Integer getSumLastThreeValues() {
+    public int getSumLastThreeValues() {
         return sumLastThreeValues;
     }
 
-    public Integer getSomeValue() {
+    public int getSomeValue() {
         return someValue;
     }
 }

@@ -24,20 +24,15 @@ UseParallelGС
 
 После оптимизации
 UseG1GC
-256 - spend msec:634, sec:0
-2048 - spend msec:635, sec:0
-3072 - spend msec:658, sec:0
-4096 - spend msec:649, sec:0
-8192 - spend msec:655, sec:0
+256 - spend msec:640, sec:0
+2048 - spend msec:638, sec:0
+4096 - spend msec:651, sec:0
+8192 - spend msec:638, sec:0
 
 UseSerialGC
-256 - spend msec:650, sec:0
-2048 - spend msec:653, sec:0
-4096 - spend msec:650, sec:0
+256 - spend msec:643, sec:0
 8192 - spend msec:650, sec:0
 
 UseParallelGC
-256 - spend msec:650, sec:0
-2048 - spend msec:640, sec:0
-4096 - spend msec:650, sec:0
-8192 - spend msec:665, sec:0
+256 - spend msec:653, sec:0
+8192 - spend msec:642, sec:0
