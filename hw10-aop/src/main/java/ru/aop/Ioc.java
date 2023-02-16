@@ -29,10 +29,6 @@ public class Ioc {
 
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-//            Arrays.stream(myclass.getClass().getMethods())
-//                    .filter(classMethod -> method.getName().equals(classMethod.getName()))
-//                    .map(classMethod -> classMethod.getAnnotations()).toList()
-//                    .forEach(System.out::println);
 
             Method classMethod = myclass.getClass().getMethod(method.getName(), method.getParameterTypes());
             if (classMethod.isAnnotationPresent(Log.class)) {
