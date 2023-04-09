@@ -5,41 +5,63 @@ import java.util.*;
 
 public class ATM {
 
-    private final Map<Denomination, Integer> cashCartridges = new HashMap<>();
-    private final List<CashCartridge> cashCartridgeList = new ArrayList<>();
+    private final List<Storage> storage = new ArrayList<>();
 
-//    public ATM() {
-//        cashCartridgeList.add(new CashCartridge(Denomination.FIFTY, 0));
-//        cashCartridgeList.add(new CashCartridge(Denomination.ONE_HUNDRED, 0));
-//        cashCartridgeList.add(new CashCartridge(Denomination.FIVE_HUNDERED, 0));
-//        cashCartridgeList.add(new CashCartridge(Denomination.ONE_THOUSAND, 0));
-//        cashCartridgeList.add(new CashCartridge(Denomination.FIVE_THOUSAND, 0));
-//    }
-
-    public ATM(int amount50, int amount100, int amount500, int amount1000, int amount5000) {
-
-//        this.cashCartridges.put(Denomination.FIFTY, amount50);
-//        this.cashCartridges.put(Denomination.ONE_HUNDRED, amount100);
-//        this.cashCartridges.put(Denomination.FIVE_HUNDERED, amount500);
-//        this.cashCartridges.put(Denomination.ONE_THOUSAND, amount1000);
-//        this.cashCartridges.put(Denomination.FIVE_THOUSAND, amount5000);
-
-        cashCartridgeList.add(new CashCartridge(Denomination.FIFTY, amount50));
-        cashCartridgeList.add(new CashCartridge(Denomination.ONE_HUNDRED, amount100));
-        cashCartridgeList.add(new CashCartridge(Denomination.FIVE_HUNDERED, amount500));
-        cashCartridgeList.add(new CashCartridge(Denomination.ONE_THOUSAND, amount1000));
-        cashCartridgeList.add(new CashCartridge(Denomination.FIVE_THOUSAND, amount5000));
+    public ATM() {
+        storage.add(new Cartridge(Banknote.FIFTY, 0));
+        storage.add(new Cartridge(Banknote.ONE_HUNDRED, 0));
+        storage.add(new Cartridge(Banknote.FIVE_HUNDERED, 0));
+        storage.add(new Cartridge(Banknote.ONE_THOUSAND, 0));
+        storage.add(new Cartridge(Banknote.FIVE_THOUSAND, 0));
     }
 
-    public void depositCash(Map<Denomination, Integer> cash) {
-        for (var entry : cash.entrySet()) {
-            System.out.println(entry.getKey() + " " + entry.getValue());
-            cashCartridges.put(entry.getKey(), cashCartridges.get(entry.getKey()) + entry.getValue());
+    public void depositCash(Cash cash) {
+            for (var cartridge : storage) {
+                Banknote cartridgeBanknote = cartridge.getBanknote();
+                cartridge.add(cash.getBanknoteAmount(cartridgeBanknote));
+            }
+    }
+
+    public Cash withdrawCash(int number) {
+
+        int[] banknotesToTake = {0, 0, 0, 0, 0};
+
+        for (int i = storage.size() - 1; i >= 0; i--) {
+
+            Storage cartridge = storage.get(i);
+            int banknoteValue = cartridge.getBanknote().getValue();
+
+            if (banknoteValue > number) {
+                continue;
+            }
+            if (number / banknoteValue > cartridge.getTotalAmount()) {
+                continue;
+            }
+
+            banknotesToTake[i] = number / banknoteValue;
+            number = number % banknoteValue;
         }
+
+        if (number > 0) {
+            throw new UnsupportedOperationException("Невозможно выдать запрошенную сумму");
+        }
+
+        Cash withdrawal = new Cash();
+        for (int i = 0; i < storage.size(); i++) {
+            Storage cartridge = storage.get(i);
+            cartridge.subtract(banknotesToTake[i]);
+            withdrawal.add(cartridge.getBanknote(), banknotesToTake[i]);
+        }
+
+        return withdrawal;
     }
 
-    public void getCash() {
-
+    public int getBalance() {
+        int balance = 0;
+        for (var cartridge : storage) {
+            balance += cartridge.getTotalAmount() * cartridge.getBanknote().getValue();
+        }
+        return balance;
     }
 
 }
