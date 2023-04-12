@@ -10,13 +10,19 @@ public class Cartridge implements Storage {
         this.amount = amount;
     }
 
+    @Override
     public int getTotalAmount() {
         return amount;
     }
 
     @Override
     public void add(int amount) {
-        this.amount += amount;
+        if (amount >= 0) {
+            this.amount += amount;
+        }
+        else {
+            throw new UnsupportedOperationException("add operation error. Parameter amount = " + amount);
+        }
     }
 
     @Override
@@ -25,7 +31,7 @@ public class Cartridge implements Storage {
             this.amount -= amount;
         }
         else {
-            throw new UnsupportedOperationException("");
+            throw new UnsupportedOperationException("subtract operation error. Parameter amount = " + amount);
         }
         return amount;
     }

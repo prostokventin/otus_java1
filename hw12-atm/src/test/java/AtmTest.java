@@ -2,6 +2,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.atm.ATM;
+import ru.atm.ATMImpl;
 import ru.atm.Cash;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -12,7 +13,7 @@ public class AtmTest {
     @DisplayName("Проверяем добавление денег в банкомат")
     void depositCashTest() {
         //given
-        ATM atm = new ATM();
+        ATM atm = new ATMImpl();
         Cash cash = new Cash();
         cash.addFifty(2);
         cash.addFiveThousand(2);
@@ -25,10 +26,24 @@ public class AtmTest {
     }
 
     @Test
+    @DisplayName("Проверяем добавление денег в банкомат с отрицательным значением купюр")
+    void depositNegativeCashTest() {
+        //given
+        ATM atm = new ATMImpl();
+        Cash cash = new Cash();
+        cash.addFifty(-20);
+
+        //when
+        Assertions.assertThrows(UnsupportedOperationException.class, () -> {
+            atm.depositCash(cash);
+        });
+    }
+
+    @Test
     @DisplayName("Проверяем вывод баланса")
     void displayBalanceTest() {
         //given
-        ATM atm = new ATM();
+        ATM atm = new ATMImpl();
         Cash cash = new Cash();
         cash.addFifty(1);
         cash.addOneHundred(1);
@@ -47,7 +62,7 @@ public class AtmTest {
     @DisplayName("Проверяем успешную выдачу денег")
     void successWithdrawCashTest() {
         //given
-        ATM atm = new ATM();
+        ATM atm = new ATMImpl();
         Cash cash = new Cash();
         cash.addFifty(1);
         cash.addOneHundred(1);
@@ -69,7 +84,7 @@ public class AtmTest {
     @DisplayName("Проверяем неудачную выдачу денег")
     void errorWithdrawCashTest() {
         //given
-        ATM atm = new ATM();
+        ATM atm = new ATMImpl();
         Cash cash = new Cash();
         cash.addFifty(1);
         cash.addOneHundred(1);

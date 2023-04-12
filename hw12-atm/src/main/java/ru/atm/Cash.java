@@ -1,5 +1,6 @@
 package ru.atm;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -9,11 +10,7 @@ public class Cash {
     private final Map<Banknote, Integer> cash = new HashMap<>();
 
     public Cash() {
-        this.cash.put(Banknote.FIFTY, 0);
-        this.cash.put(Banknote.ONE_HUNDRED, 0);
-        this.cash.put(Banknote.FIVE_HUNDERED, 0);
-        this.cash.put(Banknote.ONE_THOUSAND, 0);
-        this.cash.put(Banknote.FIVE_THOUSAND, 0);
+        Arrays.stream(Banknote.values()).forEach(banknote -> this.cash.put(banknote, 0));
     }
 
     public Cash addFifty(int amount) {
