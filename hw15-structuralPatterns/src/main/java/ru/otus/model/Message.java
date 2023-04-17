@@ -1,6 +1,6 @@
 package ru.otus.model;
 
-public class Message {
+public class Message implements Copyable<Message>{
     private final long id;
     private final String field1;
     private final String field2;
@@ -126,8 +126,13 @@ public class Message {
                 ", field10='" + field10 + '\'' +
                 ", field11='" + field11 + '\'' +
                 ", field12='" + field12 + '\'' +
-                ", field13='" + field13.toString() + '\'' +
+                ", field13='" + field13 + '\'' +
                 '}';
+    }
+
+    @Override
+    public Message copy() {
+        return new Message(id, field1, field2, field3, field4, field5, field6, field7, field8, field9, field10, field11, field12, field13.copy());
     }
 
     public static class Builder {
