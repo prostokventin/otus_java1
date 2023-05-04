@@ -7,10 +7,10 @@ import java.util.List;
 /**
  * "Разбирает" объект на составные части
  */
-public interface EntityClassMetaData<T> {
+public interface EntityClassMetaData {
     String getName();
 
-    Constructor<T> getConstructor();
+    Constructor getConstructor() throws NoSuchMethodException;
 
     //Поле Id должно определять по наличию аннотации Id
     //Аннотацию @Id надо сделать самостоятельно
