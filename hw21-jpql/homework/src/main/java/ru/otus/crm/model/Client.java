@@ -40,10 +40,14 @@ public class Client implements Cloneable {
     public Client(Long id, String name, Address address, List<Phone> phones) {
         this.id = id;
         this.name = name;
-        address.setClient(this);
-        this.address = address;
-        phones.stream().forEach(phone -> phone.setClient(this));
-        this.phones = phones;
+
+        var addressCloned = address.clone();
+        addressCloned.setClient(this);
+        this.address = addressCloned;
+
+        var phonesCloned = List.copyOf(phones);
+        phonesCloned.forEach(phone -> phone.setClient(this));
+        this.phones = phonesCloned;
     }
 
     @Override
