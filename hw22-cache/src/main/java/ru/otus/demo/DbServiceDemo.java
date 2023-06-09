@@ -3,6 +3,9 @@ package ru.otus.demo;
 import org.hibernate.cfg.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.otus.cachehw.HwCache;
+import ru.otus.cachehw.HwListener;
+import ru.otus.cachehw.MyCache;
 import ru.otus.core.repository.DataTemplateHibernate;
 import ru.otus.core.repository.HibernateUtils;
 import ru.otus.core.sessionmanager.TransactionManagerHibernate;
@@ -12,6 +15,8 @@ import ru.otus.crm.model.Client;
 import ru.otus.crm.model.Phone;
 import ru.otus.crm.service.DbServiceClientImpl;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DbServiceDemo {
@@ -34,28 +39,43 @@ public class DbServiceDemo {
         var transactionManager = new TransactionManagerHibernate(sessionFactory);
 ///
         var clientTemplate = new DataTemplateHibernate<>(Client.class);
-///
-        var dbServiceClient = new DbServiceClientImpl(transactionManager, clientTemplate);
 
-        var clientFirst = new Client(null, "Vasya", new Address(null, "AnyStreet"),
-                List.of(new Phone(null, "13-555-22"), new Phone(null, "14-666-333")));
-        dbServiceClient.saveClient(clientFirst);
+        HwCache<String, Client> cache = new MyCache<>();
+        HwListener<String, Client> listener = new HwListener<String, Client>() {
+            @Override
+            public void notify(String key, Client value, String action) {
+                log.info("!!! action:{}, key:{}, value:{}",action, key, value);
+            }
+        };
+//        cache.addListener(listener);
 
-        var clientSecond = dbServiceClient.saveClient(
-                new Client(null, "Petya", new Address(null, "Street2"),
-                        List.of(new Phone(null, "8800553535"), new Phone(null, "1234567")))
-        );
-        var clientSecondSelected = dbServiceClient.getClient(clientSecond.getId())
-                .orElseThrow(() -> new RuntimeException("Client not found, id:" + clientSecond.getId()));
-        log.info("clientSecondSelected:{}", clientSecondSelected);
-///
-        dbServiceClient.saveClient(new Client(clientSecondSelected.getId(), "dbServiceSecondUpdated",
-                clientSecondSelected.getAddress(), clientSecondSelected.getPhones()));
-        var clientUpdated = dbServiceClient.getClient(clientSecondSelected.getId())
-                .orElseThrow(() -> new RuntimeException("Client not found, id:" + clientSecondSelected.getId()));
-        log.info("clientUpdated:{}", clientUpdated);
+        var dbServiceClient = new DbServiceClientImpl(transactionManager, clientTemplate, cache);
 
-        log.info("All clients");
-        dbServiceClient.findAll().forEach(client -> log.info("client:{}", client));
+        List<Long> idList = new ArrayList<>();
+
+        LocalDateTime startDttm = LocalDateTime.now();
+
+        for (int i = 1; i <= 1000; i++) {
+            var client = dbServiceClient.saveClient(
+                    new Client(
+                            null,
+                            "name" + i,
+                            new Address(null, "street" + i),
+                            List.of(new Phone(null, "phone" + i))
+                    )
+            );
+            idList.add(client.getId());
+        }
+
+        for (var id : idList) {
+            dbServiceClient.getClient(id);
+        }
+
+        LocalDateTime endDttm = LocalDateTime.now();
+
+        log.info("start dttm:{}", startDttm);
+        log.info("end dttm:{}", endDttm);
+
+//        cache.removeListener(listener);
     }
 }
