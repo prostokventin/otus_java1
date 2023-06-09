@@ -12,6 +12,8 @@ import ru.otus.crm.model.Client;
 import ru.otus.crm.model.Phone;
 import ru.otus.crm.service.DbServiceClientImpl;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DbServiceDemo {
@@ -37,25 +39,50 @@ public class DbServiceDemo {
 ///
         var dbServiceClient = new DbServiceClientImpl(transactionManager, clientTemplate);
 
-        var clientFirst = new Client(null, "Vasya", new Address(null, "AnyStreet"),
-                List.of(new Phone(null, "13-555-22"), new Phone(null, "14-666-333")));
-        dbServiceClient.saveClient(clientFirst);
+//        var clientFirst = new Client(null, "Vasya", new Address(null, "AnyStreet"),
+//                List.of(new Phone(null, "13-555-22"), new Phone(null, "14-666-333")));
+//        dbServiceClient.saveClient(clientFirst);
+//
+//        var clientSecond = dbServiceClient.saveClient(
+//                new Client(null, "Petya", new Address(null, "Street2"),
+//                        List.of(new Phone(null, "8800553535"), new Phone(null, "1234567")))
+//        );
+//        var clientSecondSelected = dbServiceClient.getClient(clientSecond.getId())
+//                .orElseThrow(() -> new RuntimeException("Client not found, id:" + clientSecond.getId()));
+//        log.info("clientSecondSelected:{}", clientSecondSelected);
+/////
+//        dbServiceClient.saveClient(new Client(clientSecondSelected.getId(), "dbServiceSecondUpdated",
+//                clientSecondSelected.getAddress(), clientSecondSelected.getPhones()));
+//        var clientUpdated = dbServiceClient.getClient(clientSecondSelected.getId())
+//                .orElseThrow(() -> new RuntimeException("Client not found, id:" + clientSecondSelected.getId()));
+//        log.info("clientUpdated:{}", clientUpdated);
+//
+//        log.info("All clients");
+//        dbServiceClient.findAll().forEach(client -> log.info("client:{}", client));
 
-        var clientSecond = dbServiceClient.saveClient(
-                new Client(null, "Petya", new Address(null, "Street2"),
-                        List.of(new Phone(null, "8800553535"), new Phone(null, "1234567")))
-        );
-        var clientSecondSelected = dbServiceClient.getClient(clientSecond.getId())
-                .orElseThrow(() -> new RuntimeException("Client not found, id:" + clientSecond.getId()));
-        log.info("clientSecondSelected:{}", clientSecondSelected);
-///
-        dbServiceClient.saveClient(new Client(clientSecondSelected.getId(), "dbServiceSecondUpdated",
-                clientSecondSelected.getAddress(), clientSecondSelected.getPhones()));
-        var clientUpdated = dbServiceClient.getClient(clientSecondSelected.getId())
-                .orElseThrow(() -> new RuntimeException("Client not found, id:" + clientSecondSelected.getId()));
-        log.info("clientUpdated:{}", clientUpdated);
+        List<Long> idList = new ArrayList<>();
 
-        log.info("All clients");
-        dbServiceClient.findAll().forEach(client -> log.info("client:{}", client));
+        LocalDateTime startDttm = LocalDateTime.now();
+
+        for (int i = 1; i <= 1000; i++) {
+            var client = dbServiceClient.saveClient(
+                    new Client(
+                            null,
+                            "name" + i,
+                            new Address(null, "street" + i),
+                            List.of(new Phone(null, "phone" + i))
+                    )
+            );
+            idList.add(client.getId());
+        }
+
+        for (var id : idList) {
+            dbServiceClient.getClient(id);
+        }
+
+        LocalDateTime endDttm = LocalDateTime.now();
+
+        log.info("start dttm:{}", startDttm);
+        log.info("end dttm:{}", endDttm);
     }
 }
