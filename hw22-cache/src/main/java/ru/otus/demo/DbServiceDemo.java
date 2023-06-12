@@ -67,14 +67,26 @@ public class DbServiceDemo {
             idList.add(client.getId());
         }
 
+//        log.info("cache size after add clients:{}", cache.getCacheCnt());
+
         for (var id : idList) {
             dbServiceClient.getClient(id);
         }
+
+//        log.info("cache size after first getting clients:{}", cache.getCacheCnt());
+
+        for (var id : idList) {
+            dbServiceClient.getClient(id);
+        }
+
+//        log.info("cache size after second getting clients:{}", cache.getCacheCnt());
 
         LocalDateTime endDttm = LocalDateTime.now();
 
         log.info("start dttm:{}", startDttm);
         log.info("end dttm:{}", endDttm);
+//        log.info("cache cnt:{}", cache.getCacheCnt());
+
 
 //        cache.removeListener(listener);
     }

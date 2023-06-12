@@ -47,10 +47,13 @@ public class DbServiceClientImpl implements DBServiceClient {
         return transactionManager.doInReadOnlyTransaction(session -> {
             var clientCached = Optional.ofNullable(cache.get(String.valueOf(id)));
             if (clientCached.isPresent()) {
-                log.info("client cached: {}", clientCached);
+//                log.info("client cached: {}", clientCached);
                 return clientCached;
             }
             var clientOptional = clientDataTemplate.findById(session, id);
+            if (clientOptional.isPresent()) {
+                cache.put(String.valueOf(clientOptional.get().getId()), clientOptional.get());
+            }
 //            log.info("client: {}", clientOptional);
             return clientOptional;
         });
