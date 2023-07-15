@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Список клиентов</title>
+</head>
+<body>
+    <table style="width: 400px">
+        <thead>
+        <tr>
+            <td style="width: 50px">Имя</td>
+            <td style="width: 150px">Адрес</td>
+            <td style="width: 150px">Телефон</td>
+        </tr>
+        </thead>
+        <tbody>
+        <#list clientList as client>
+            <tr>
+                <td>${client.name}</td>
+                <td>${client.address.street}</td>
+                <td>
+                    <#list client.phones as phone>
+                        <span>${phone.number} <span>
+                    </#list>
+                </td>
+            </tr>
+        </#list>
+        </tbody>
+    </table>
+</body>
+</html>

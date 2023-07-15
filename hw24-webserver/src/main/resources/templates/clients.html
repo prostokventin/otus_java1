@@ -1,0 +1,51 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Клиенты</title>
+</head>
+
+<body>
+
+<!--    <label>-->
+<!--        Имя-->
+<!--        <input type="text" id = "clientName" value="name1" placeholder="Введите имя">-->
+<!--    </label>-->
+<!--    <br/>-->
+<!--    <label>-->
+<!--        Адрес-->
+<!--        <input type="text" id = "clientAddress" value="street1" placeholder="Введите адрес">-->
+<!--    </label>-->
+<!--    <br/>-->
+<!--    <label>-->
+<!--        Телефон-->
+<!--        <input type="text" id = "clientPhone" value="phone1" placeholder="Введите телефон">-->
+<!--    </label>-->
+<!--    <br/>-->
+<!--    <button onclick="getUserById()">Получить</button>-->
+    <h2>Добавить клиента</h2>
+    <form method="post" action="/api/client">
+        <label>
+            Имя <br/>
+            <input type="text" name="client_name" value="client1">
+        </label>
+        <br/>
+        <label>
+            Адрес<br/>
+            <input type="text" name="client_address" value="street1">
+        </label>
+        <br/>
+        <label>
+            Телефон<br/>
+            <input type="text" name="client_phone" value="phone1">
+        </label>
+        <br/><br/>
+        <input type="submit" value="Добавить">
+    </form>
+    <br/><br/>
+    <form method="get" action="/api/client">
+        <input type="submit" value="Получить список клиентов">
+    </form>
+<!--    <button onclick="getClients()">Получить</button>-->
+
+
+</body>
+</html>
