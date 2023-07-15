@@ -16,4 +16,4 @@ include 'hw22-cache'
 include 'hw22-cache:homework'
 findProject(':hw22-cache:homework')?.name = 'homework'
 include 'hw24-webserver'
-
+include 'hw25-di:homework'
